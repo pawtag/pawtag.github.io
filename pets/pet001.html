@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>请帮我回家！</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .plate {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .plate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4, #a18cd1);
+        }
+        .header {
+            font-size: 28px;
+            font-weight: 800;
+            color: #2d3436;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+        .photo {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            border: 3px solid #f8f9fa;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+        
+        /* 统一卡片样式 */
+        .info-card {
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+        .card-title {
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            color: #636e72;
+            font-weight: 600;
+        }
+        .info-value {
+            color: #2d3436;
+            font-weight: 600;
+            text-align: right;
+            max-width: 60%;
+        }
+        
+        /* 联系方式卡片 */
+        .contact-card {
+            background: #fff9e6;
+            border-left: 4px solid #fdcb6e;
+        }
+        .contact-card::before {
+            background: #fdcb6e;
+        }
+        .contact-title {
+            color: #e17055;
+        }
+        .contact-phone {
+            color: #0984e3;
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .contact-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .action-call {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+        }
+        .action-copy {
+            background: #00b894;
+            color: white;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* 基本信息卡片 */
+        .basic-card {
+            background: #f0f7ff;
+            border-left: 4px solid #74b9ff;
+        }
+        .basic-card::before {
+            background: #74b9ff;
+        }
+        .basic-title {
+            color: #0984e3;
+        }
+        
+        /* 健康档案卡片 */
+        .health-card {
+            background: #e8f6f3;
+            border-left: 4px solid #26a69a;
+        }
+        .health-card::before {
+            background: #26a69a;
+        }
+        .health-title {
+            color: #26a69a;
+        }
+        .vaccine-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #b2dfdb;
+        }
+        .vaccine-title {
+            color: #26a69a;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .vaccine-title::before {
+            content: '💉';
+        }
+        .vaccine-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 15px;
+        }
+        
+        /* 位置卡片 */
+        .location-card {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        .location-card::before {
+            background: #2196f3;
+        }
+        .location-title {
+            color: #1976d2;
+        }
+        
+        /* 操作按钮区域 */
+        .btn-area {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .btn {
+            text-align: center;
+            padding: 18px 10px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+        }
+        .nav {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            cursor: pointer;
+        }
+        .nav:hover {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(108, 92, 231, 0.4);
+        }
+        .report {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+            color: white;
+            cursor: pointer;
+        }
+        .report:hover {
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 184, 148, 0.4);
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            color: #636e72;
+            font-size: 15px;
+            line-height: 1.6;
+            border-top: 1px solid #dfe6e9;
+            padding-top: 20px;
+        }
+        .footer a {
+            color: #0984e3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover { text-decoration: underline; }
+        .brand {
+            color: #e17055;
+            font-weight: 800;
+        }
+        
+        /* 上报弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+        .modal-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #2d3436;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3436;
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #dfe6e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            border-color: #74b9ff;
+            outline: none;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .modal-btn.submit {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+            color: white;
+        }
+        .modal-btn.cancel {
+            background: #dfe6e9;
+            color: #2d3436;
+        }
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+        .success-message {
+            background: #d5f4e6;
+            color: #00b894;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="plate">
+        <!-- 标题 -->
+        <div class="header">🐾 我迷路了，请帮帮我！</div>
+        
+        <!-- 宠物照片 -->
+        <img class="photo" id="photo" src="https://pic1.imgdb.cn/item/6970c90c388eb343186e29fc.jpg" alt="宠物照片" onerror="this.src='https://placehold.co/400x280/e0f7fa/0288d1?text=Pet+Photo'">
+        
+        <!-- 联系方式卡片 -->
+        <div class="info-card contact-card">
+            <div class="card-title contact-title">📞 紧急联系方式</div>
+            <div class="info-item">
+                <div class="info-label">主人</div>
+                <div class="info-value">袁先生</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">联系电话</div>
+                <div class="info-value contact-phone">18662584381</div>
+            </div>
+            <div class="contact-actions">
+                <a class="action-btn action-call" href="tel:18662584381">📞 立即呼叫</a>
+                <button class="action-btn action-copy" onclick="copyPhone()">📋 复制号码</button>
+            </div>
+        </div>
+        
+        <!-- 基本信息卡片 -->
+        <div class="info-card basic-card">
+            <div class="card-title basic-title">🐱 基本信息</div>
+            <div class="info-item">
+                <div class="info-label">姓名</div>
+                <div class="info-value">小咪</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">品种</div>
+                <div class="info-value">三花</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">年龄</div>
+                <div class="info-value">2岁</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">性别</div>
+                <div class="info-value">母</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">特征</div>
+                <div class="info-value">左耳残缺，背部有白斑</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">主人地址</div>
+                <div class="info-value">苏州吴江区运东大道799号</div>
+            </div>
+        </div>
+        
+        <!-- 健康档案卡片 -->
+        <div class="info-card health-card">
+            <div class="card-title health-title">💊 健康档案</div>
+            <div class="info-item">
+                <div class="info-label">绝育状态</div>
+                <div class="info-value">已绝育</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">过敏史</div>
+                <div class="info-value">无</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">慢性病史</div>
+                <div class="info-value">无</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">身份标识</div>
+                <div class="info-value">宠印互联智能吊牌</div>
+            </div>
+            
+            <div class="vaccine-section">
+                <div class="vaccine-title">疫苗接种记录</div>
+                <div class="vaccine-item">
+                    <span class="info-label">狂犬疫苗</span>
+                    <span class="info-value">2024-03-01</span>
+                </div>
+                <div class="vaccine-item">
+                    <span class="info-label">猫三联</span>
+                    <span class="info-value">2024-02-15</span>
+                </div>
+                <div class="vaccine-item">
+                    <span class="info-label">驱虫</span>
+                    <span class="info-value">2024-02-01</span>
+                </div>
+                <div class="vaccine-item">
+                    <span class="info-label">健康检查</span>
+                    <span class="info-value">2024-01-20</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 最后看到位置卡片 -->
+        <div class="info-card location-card">
+            <div class="card-title location-title">📍 最后看到位置</div>
+            <div class="info-item">
+                <div class="info-label">时间</div>
+                <div class="info-value">2024年3月15日 14:30</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">地点</div>
+                <div class="info-value">苏州吴江区运东大道附近小区</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">发现人</div>
+                <div class="info-value">好心人李女士</div>
+            </div>
+            <a class="btn nav" href="https://uri.amap.com/search?keyword=苏州吴江区运东大道附近小区&callnative=1" target="_blank">
+                📍 导航到最后位置
+            </a>
+        </div>
+        
+        <!-- 操作按钮 -->
+        <div class="btn-area">
+            <a class="btn nav" href="https://uri.amap.com/search?keyword=苏州吴江区运东大道799号&callnative=1" target="_blank">📍 导航到主人地址</a>
+            <button class="btn report" onclick="showReportModal()">📍 我在这里发现了它</button>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>本页信息由 <span class="brand">宠印互联</span> 智能吊牌管理</p>
+            <p>如需更新信息，请联系客服 <a href="javascript:void(0)" onclick="copyWechat()">微信：Yuan444612</a></p>
+        </div>
+    </div>
+
+    <!-- 上报位置弹窗 -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <div class="modal-title">📝 上报发现位置</div>
+            
+            <div class="form-group">
+                <label class="form-label">发现时间</label>
+                <input type="text" class="form-input" id="reportTime" value="" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">发现地点</label>
+                <input type="text" class="form-input" id="reportLocation" placeholder="请描述具体位置，如：XX小区门口、XX公园南侧">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">您的称呼（可选）</label>
+                <input type="text" class="form-input" id="reporterName" placeholder="如：张先生、李女士">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">联系电话（可选）</label>
+                <input type="tel" class="form-input" id="reporterPhone" placeholder="方便主人联系您">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">宠物状态（可选）</label>
+                <textarea class="form-input" id="petStatus" rows="2" placeholder="如：精神状态良好、有轻微擦伤等"></textarea>
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                ✅ 位置上报成功！主人会尽快查看。
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn submit" onclick="submitReport()">提交上报</button>
+                <button class="modal-btn cancel" onclick="hideReportModal()">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 复制主人电话号码功能
+        function copyPhone() {
+            const phone = '18662584381';
+            navigator.clipboard.writeText(phone).then(() => {
+                alert('主人电话号码已复制到剪贴板：' + phone);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                prompt('请手动复制电话号码：', phone);
+            });
+        }
+        
+        // 复制客服微信
+        function copyWechat() {
+            const wechat = 'Yuan444612';
+            navigator.clipboard.writeText(wechat).then(() => {
+                alert('客服微信已复制到剪贴板：' + wechat + '\n\n请打开微信添加好友');
+            }).catch(err => {
+                console.error('复制失败:', err);
+                prompt('请手动复制客服微信：', wechat);
+            });
+        }
+        
+        // 显示上报弹窗
+        function showReportModal() {
+            // 自动填充当前时间
+            const now = new Date();
+            const timeStr = now.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('reportTime').value = timeStr;
+            
+            // 尝试获取当前位置
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        document.getElementById('reportLocation').value = `GPS位置：${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                    },
+                    function(error) {
+                        console.log('获取位置失败:', error);
+                    }
+                );
+            }
+            
+            // 显示弹窗
+            document.getElementById('reportModal').style.display = 'flex';
+        }
+        
+        // 隐藏上报弹窗
+        function hideReportModal() {
+            document.getElementById('reportModal').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            // 清空表单
+            document.getElementById('reportLocation').value = '';
+            document.getElementById('reporterName').value = '';
+            document.getElementById('reporterPhone').value = '';
+            document.getElementById('petStatus').value = '';
+        }
+        
+        // 提交上报
+        function submitReport() {
+            const location = document.getElementById('reportLocation').value.trim();
+            const time = document.getElementById('reportTime').value;
+            const name = document.getElementById('reporterName').value.trim() || '好心人';
+            const phone = document.getElementById('reporterPhone').value.trim();
+            const status = document.getElementById('petStatus').value.trim();
+            
+            if (!location) {
+                alert('请填写发现地点');
+                document.getElementById('reportLocation').focus();
+                return;
+            }
+            
+            // 显示成功信息
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // 模拟更新页面显示
+            setTimeout(() => {
+                // 获取位置卡片中的元素并更新
+                const lastTime = document.querySelector('.location-card .info-item:nth-child(1) .info-value');
+                const lastLocation = document.querySelector('.location-card .info-item:nth-child(2) .info-value');
+                const lastFinder = document.querySelector('.location-card .info-item:nth-child(3) .info-value');
+                
+                if (lastTime) lastTime.textContent = time;
+                if (lastLocation) lastLocation.textContent = location;
+                if (lastFinder) lastFinder.textContent = name;
+                
+                // 更新导航链接
+                const navBtn = document.querySelector('.location-card .btn');
+                if (navBtn) {
+                    navBtn.href = `https://uri.amap.com/search?keyword=${encodeURIComponent(location)}&callnative=1`;
+                }
+                
+                hideReportModal();
+                
+                alert(`✅ 位置上报成功！\n\n发现时间：${time}\n发现地点：${location}\n${status ? '宠物状态：' + status : ''}\n\n主人会收到通知并尽快处理。`);
+            }, 1500);
+            
+            // 记录上报信息
+            console.log('上报信息:', { location, time, name, phone, status });
+        }
+        
+        // 页面加载时检查图片是否加载成功
+        window.onload = function() {
+            const img = document.getElementById('photo');
+            img.onerror = function() {
+                this.src = 'https://placehold.co/400x280/e0f7fa/0288d1?text=Pet+Photo';
+            };
+        };
+    </script>
+</body>
+</html>
