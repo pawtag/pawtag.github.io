@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>宠印互联 - 宠物信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        .logo {
+            font-size: 36px;
+            font-weight: 900;
+            color: #e17055;
+            margin-bottom: 10px;
+        }
+        .logo span { color: #0984e3; }
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 20px;
+        }
+        .tip-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .tip-title {
+            color: #e65100;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .step-list {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        .step-list li {
+            margin-bottom: 10px;
+            color: #2d3436;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00c853, #64dd17);
+            color: white;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            text-decoration: none;
+            margin: 20px 0;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(100, 221, 23, 0.4);
+        }
+        .copy-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .url {
+            font-family: monospace;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            word-break: break-all;
+            font-size: 14px;
+        }
+        .copy-btn {
+            background: #2196f3;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .qrcode {
+            margin: 25px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        .qrcode img {
+            width: 150px;
+            height: 150px;
+        }
+        .footer {
+            color: #636e72;
+            font-size: 14px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 品牌标识 -->
+        <div class="logo">宠印<span>互联</span></div>
+        <div class="title">🐾 智能宠物吊牌信息</div>
+        
+        <!-- 微信提示 -->
+        <div class="tip-box">
+            <div class="tip-title">📱 微信访问提示</div>
+            <p>由于微信安全限制，无法直接访问第三方页面。</p>
+            <p>请按以下步骤操作：</p>
+            <ol class="step-list">
+                <li>点击下方绿色按钮直接打开</li>
+                <li>或点击右上角 <strong>⋯</strong></li>
+                <li>选择"在浏览器打开"</li>
+                <li>或复制链接到浏览器</li>
+            </ol>
+        </div>
+        
+        <!-- 主要操作按钮 -->
+        <a href="https://pawtag.github.io/pets/PET001.html" class="btn" id="openBtn">
+            🚀 点击在浏览器打开宠物信息
+        </a>
+        
+        <!-- 备用方案 -->
+        <div class="copy-box">
+            <div style="color: #1976d2; font-weight: 600; margin-bottom: 10px;">
+                备用方案：复制链接
+            </div>
+            <div class="url" id="urlText">
+                https://pawtag.github.io/pets/PET001.html
+            </div>
+            <button class="copy-btn" onclick="copyUrl()">
+                📋 复制链接
+            </button>
+        </div>
+        
+        <!-- 浏览器扫码提示 -->
+        <div class="qrcode">
+            <div style="color: #666; margin-bottom: 10px;">
+                💡 建议使用手机浏览器扫码
+            </div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pawtag.github.io/pets/PET001.html" 
+                 alt="二维码">
+            <div style="font-size: 13px; color: #888; margin-top: 10px;">
+                使用浏览器扫描此二维码直接访问
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>本服务由宠印互联提供</p>
+            <p>客服微信：Yuan444612</p>
+            <p style="font-size: 12px; margin-top: 10px;">
+                遇到问题？<a href="javascript:void(0)" onclick="contactService()" style="color: #2196f3;">联系客服</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 复制链接功能
+        function copyUrl() {
+            const url = document.getElementById('urlText').textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('链接已复制！\n请粘贴到浏览器地址栏访问。');
+            }).catch(err => {
+                prompt('请手动复制链接：', url);
+            });
+        }
+        
+        // 联系客服
+        function contactService() {
+            const wechat = 'Yuan444612';
+            navigator.clipboard.writeText(wechat).then(() => {
+                alert('客服微信已复制：' + wechat + '\n请打开微信添加好友');
+            }).catch(err => {
+                prompt('客服微信：', wechat);
+            });
+        }
+        
+        // 尝试自动跳转（非微信环境）
+        function tryAutoRedirect() {
+            const isWeixin = /MicroMessenger/i.test(navigator.userAgent);
+            if (!isWeixin) {
+                // 非微信环境，3秒后自动跳转
+                setTimeout(() => {
+                    window.location.href = 'https://pawtag.github.io/pets/PET001.html';
+                }, 3000);
+            }
+        }
+        
+        // 按钮点击统计
+        document.getElementById('openBtn').addEventListener('click', function() {
+            console.log('用户点击了跳转按钮');
+        });
+        
+        // 页面加载时执行
+        window.onload = function() {
+            console.log('微信跳转页加载完成');
+            tryAutoRedirect();
+        };
+    </script>
+</body>
+</html>
